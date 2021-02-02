@@ -1,10 +1,15 @@
 // dependencies
 const fs = require("fs");
 const express = require("express");
+const bodyParser = require("body-parser");
+
 var path = require("path");
 
 const app = express();
 
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 // routes
 app.get("*", function (req, res) {
   res.sendFile(__dirname + "/public/index.html");
@@ -14,7 +19,7 @@ app.get("/notes", function (req, res) {
   res.sendFile(__dirname + "/public/notes.html");
 });
 
-app.post()
+app.post();
 
 // listening
 app.listen(8080, function () {
