@@ -6,13 +6,12 @@ const app = express();
 
 // routes
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/index.html");
-  });
-
-app.get("/notes", function (req, res) {
-  res.sendFile(__dirname + "/notes.html");
+  res.sendFile(__dirname + "/public/index.html");
 });
 
+app.get("/notes", function (req, res) {
+  res.sendFile(__dirname + "/public/notes.html");
+});
 
 // listening
 app.listen(8080, function () {
