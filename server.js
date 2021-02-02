@@ -2,24 +2,28 @@
 const fs = require("fs");
 const express = require("express");
 const bodyParser = require("body-parser");
-
+const routes = require("./routes/api_routes");
 var path = require("path");
 
 const app = express();
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-// routes
-app.get("*", function (req, res) {
-  res.sendFile(__dirname + "/public/index.html");
-});
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+// Create a route for all assets within public
+app.use(express.static("public"));
+require("./routes/api_routes")(app);
 
 app.get("/notes", function (req, res) {
-  res.sendFile(__dirname + "/public/notes.html");
+  res.sendFile(path.join(__dirname + "/public/notes.html"));
 });
 
-app.post();
+// routes
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname + "/public/index.html"));
+});
 
 // listening
 app.listen(8080, function () {
