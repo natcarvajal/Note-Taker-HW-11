@@ -1,3 +1,4 @@
+const { response } = require("express");
 const fs = require("fs");
 const path = require("path");
 const db = __dirname + "/../db/db.json";
@@ -21,14 +22,13 @@ module.exports = (app) => {
     fs.readFile(db, "utf-8", (err, data) => {
       let notes = [];
       if (err) throw err;
-      JSON.parse(data);
       const newNote = req.body;
       newNote.id = uuidv4();
       notes.push(newNote);
       fs.writeFile(
         path.join(__dirname + "/../db/db.json", JSON.stringify(data))
       );
-      res.json(data);
+      response.json(data);
     });
   });
 
@@ -38,7 +38,7 @@ module.exports = (app) => {
       if (err) throw err;
       let notes = JSON.parse(data);
       db = db.filter((notes) => notes.id != del);
-      res.json(notes);
+      response.json(notes);
     });
     // // I can get access to the id through req.params.id
     // Read the file
