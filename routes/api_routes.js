@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const db = __dirname + "/../db/db.json";
 const { v4: uuidv4 } = require("uuid");
 
@@ -13,21 +14,33 @@ module.exports = (app) => {
   app.post("/api/notes", (req, res) => {
     // Read the db file
     // Parse the json
-    fs.readFile(db, "utf-8", (err, data) => {
-      if (err) throw err;
-      res.json(JSON.parse(data));
-    });
     // Add a UUID to the incoming payload
-    const newNote = req.body;
-    newNote.id = uuidv4();
     // Add the new payload to the parsed json
     // Rewrite the file with the new array
     // Respond with the new array
-    res.json({ the_body: req.body });
+    fs.readFile(db, "utf-8", (err, data) => {
+      let notes = [];
+      if (err) throw err;
+      res.json(JSON.parse(data));
+      const newNote = req.body;
+      newNote.id = uuidv4();
+      notes.push(newNote);
+      fs.writeFile(
+        path.join(__dirname + "/../db/db.json", JSON.stringify(data))
+      );
+      //   res.json({ the_body: req.body });
+    });
   });
 
   app.delete("/api/notes/:id", (req, res) => {
-    // I can get access to the id through req.params.id
+    let del = req.params.id;
+    fs.readFile(db, "utf-8", (err, data) => {
+      if (err) throw err;
+      res.json(JSON.parse(data));
+      db = db.filter((notes) => notes.id != del);
+      res.json(notes);
+    });
+    // // I can get access to the id through req.params.id
     // Read the file
     // Find the UUID matching the one in the params object
     // Delete it
