@@ -21,14 +21,14 @@ module.exports = (app) => {
     fs.readFile(db, "utf-8", (err, data) => {
       let notes = [];
       if (err) throw err;
-      res.json(JSON.parse(data));
+      JSON.parse(data);
       const newNote = req.body;
       newNote.id = uuidv4();
       notes.push(newNote);
       fs.writeFile(
         path.join(__dirname + "/../db/db.json", JSON.stringify(data))
       );
-      //   res.json({ the_body: req.body });
+      res.json(data);
     });
   });
 
@@ -36,7 +36,7 @@ module.exports = (app) => {
     let del = req.params.id;
     fs.readFile(db, "utf-8", (err, data) => {
       if (err) throw err;
-      res.json(JSON.parse(data));
+      let notes = JSON.parse(data);
       db = db.filter((notes) => notes.id != del);
       res.json(notes);
     });
