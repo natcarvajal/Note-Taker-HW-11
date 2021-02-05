@@ -17,5 +17,9 @@ SO THAT I can organize my thoughts and keep track of tasks I need to complete<br
 * Application should allow users to view previously saved notes.
 * Application should allow users to delete previously saved notes.
 
+## Screenshot:
+![landing page](./image/screen-shot.png)
+
  ## Links:
 * [Github Repo](https://github.com/natcarvajal/Note-Taker-HW-11)
+* [Heroku Link](https://aqueous-castle-38143.herokuapp.com/)
