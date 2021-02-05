@@ -14,11 +14,18 @@ app.use(
 );
 // Create a route for all assets within public
 app.use(express.static("public"));
-require("./routes/api_routes")(app);
+require("./routes/api_routes.js")(app);
 
 app.get("/notes", function (req, res) {
   res.sendFile(path.join(__dirname + "/public/notes.html"));
 });
+
+// app.get("/api/notes", (req, res) => {
+//   fs.readFile("./db/db.json", "utf-8", (err, data) => {
+//     if (err) throw err;
+//     res.json(data);
+//   });
+// });
 
 // routes
 app.get("*", function (req, res) {

@@ -5,9 +5,9 @@ const { v4: uuidv4 } = require("uuid");
 // console.log("db: ", db);
 module.exports = (app) => {
   app.get("/api/notes", (req, res) => {
-    fs.readFile(db, "utf-8", (err, data) => {
+    fs.readFile("./db/db.json", "utf-8", (err, data) => {
       if (err) throw err;
-      res.json(JSON.parse(data));
+      res.json(data);
     });
   });
 
@@ -18,15 +18,16 @@ module.exports = (app) => {
     // Add the new payload to the parsed json
     // Rewrite the file with the new array
     // Respond with the new array
-    fs.readFile(db, "utf-8", (err, data) => {
+    fs.readFile("./db/db.json", "utf-8", (err, note) => {
       if (err) throw err;
       const newNote = req.body;
       newNote.id = uuidv4();
-      db.push(newNote);
-      fs.writeFile(__dirname, "/../db/db.json"),
-        JSON.stringify(newNote),
-        "utf-8";
-      res.json(data);
+      JSON.parse(note).push(newNote);
+      console.log(note);
+      fs.writeFile("./db/db.json", note, (err) => {
+        if (err) throw err;
+      });
+      res.json(note);
     });
   });
 
