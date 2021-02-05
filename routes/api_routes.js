@@ -19,17 +19,14 @@ module.exports = (app) => {
     // Add the new payload to the parsed json
     // Rewrite the file with the new array
     // Respond with the new array
-    fs.readFileSync("./db/db.json", "utf-8", (err, note) => {
-      if (err) throw err;
-      const newNote = req.body;
-      newNote.id = uuidv4();
-      JSON.parse(note).push(newNote);
-      console.log(note);
-      fs.writeFileSync("./db/db.json", note, (err) => {
-        if (err) throw err;
-      });
-      res.json(note);
-    });
+    let notes = fs.readFileSync("db/db.json", "utf-8");
+    const newNote = req.body;
+    newNote.id = uuidv4();
+    notes = JSON.parse(notes);
+    notes.push(newNote);
+
+    fs.writeFileSync("db/db.json", JSON.stringify(notes));
+    return res.json(notes);
   });
 
   //   app.delete("/api/notes/:id", (req, res) => {
